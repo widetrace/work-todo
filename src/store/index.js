@@ -13,6 +13,13 @@ export default new Vuex.Store({
     board
   },
   mutations: {
+    CREATE_TASK(state, { tasks, name }) {
+      tasks.push({
+        name,
+        id: uuid(),
+        description: ''
+      })
+    }
   },
   actions: {
   },
