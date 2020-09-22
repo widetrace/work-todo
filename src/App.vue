@@ -17,7 +17,7 @@ body {
   color: #2c3e50;
   min-height: 100vh;
   max-width: 100vw;
-  overflow: hidden;
+  overflow-x: scroll;
   padding-right: 10vw;
   padding-left: 10vw;
 }

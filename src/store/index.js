@@ -19,6 +19,9 @@ export default new Vuex.Store({
         id: uuid(),
         description: ''
       })
+    },
+    CHANGE_TASK_STATUS(state, {tasks, taskIndex}) {
+      tasks[taskIndex].status = !!tasks[taskIndex].status
     }
   },
   actions: {
