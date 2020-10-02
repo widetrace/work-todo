@@ -4,15 +4,10 @@
     input.task-data__checkbox(
       type="checkbox",
       v-model="task.status",
-      :disabled="true"
+      @change="changeTaskStatus($event)",
     )
     p {{ task.name }}
     p.small {{ task.description }}
-  input(
-    type="text",
-    placeholder="+ Enter new task",
-    @keyup.enter="createTask($event, column.tasks)"
-  )
 </template>
 
 <script>
@@ -20,19 +15,28 @@ export default {
   props: {
     task: {
       type: Object,
-      required
+      required: true,
     },
+    tasks: {
+      type: Array,
+      required: true,
+    },
+    taskIndex: {
+      type: Number,
+      required: true,
+    }
   },
   methods: {
-    createTask(e, tasks) {
-      this.$store.commit('CREATE_TASK', {
-        tasks,
-        name: e.target.value
-      })
-      e.target.value = ''
-    }
-  }
-}
+    changeTaskStatus(e) {
+      e.preventDefault();
+
+      this.$store.commit("CHANGE_TASK_STATUS", {
+        tasks: this.tasks,
+        taskIndex: this.taskIndex,
+      });
+    },
+  },
+};
 </script>
 
 <style lang="scss">
@@ -44,13 +48,7 @@ export default {
   &-data {
     &__checkbox {
       float: left;
-      margin-top: 13px;
     }
-  }
-  &__new {
-    background-color: transparent;
-    outline: none;
-    border: none;
   }
 }
 </style>

@@ -7,6 +7,7 @@
           v-for="(column, $columnIndex) in board.columns"
           :key="$columnIndex"
           :column="column"
+          :columnIndex="$columnIndex"
         )
 </template>
 

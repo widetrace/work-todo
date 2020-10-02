@@ -1,29 +1,39 @@
 <template lang="pug">
-  .column
-    h3 {{ column.name }}
-    .tasks
-      .list(v-for="(task, $taskIndex) in column.tasks", :key="$taskIndex")
-        input.list__checkbox(
-          type="checkbox",
-          v-model="task.status",
-          @change="changeTaskStatus($event,column.tasks, $taskIndex)"
-        )
-        p {{ task.name }}
-        p.small {{ task.description }}
-    input.list__new-task(
-      type="text",
-      placeholder="+ Enter new task",
-      @keyup.enter="createTask($event, column.tasks)"
+.column
+  h3 {{ column.name }}
+  span(@click="goToEditor(columnIndex)", class="edit btn") Edit
+  span(class="delete btn") Delete
+  .tasks
+    column-task(
+      v-for="(task, $taskIndex) in column.tasks",
+      :key="$taskIndex",
+      :task="task",
+      :tasks="column.tasks",
+      :taskIndex="$taskIndex"
     )
+  input.list__new-task(
+    type="text",
+    placeholder="+ Enter new task",
+    @keyup.enter="createTask($event, column.tasks)"
+  )
 </template>
 
 <script>
+import ColumnTask from "@/components/ColumnTask.vue";
+
 export default {
   props: {
     column: {
       type: Object,
       required: true,
     },
+    columnIndex: {
+      type: Number,
+      required: true,
+    },
+  },
+  components: {
+    ColumnTask,
   },
   methods: {
     createTask(e, tasks) {
@@ -33,39 +43,37 @@ export default {
       });
       e.target.value = "";
     },
-    changeTaskStatus(e, tasks, taskIndex) {
-      e.preventDefault()
-      
-      this.$store.commit("CHANGE_TASK_STATUS", {
-        tasks,
-        taskIndex
-      })
-    }
+    goToEditor(columnIndex) {
+      this.$router.push({ name: "Editor", params: { id: columnIndex } });
+    },
   },
 };
 </script>
 
 <style lang="scss">
+.btn {
+  padding: 10px;
+  &:hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+}
+
+.delete {
+  color: red;
+}
+
 .column {
   border: 1px solid #edeef0;
   border-radius: 5px;
   padding: 10px;
 }
 
-.list {
-  margin: 5px;
-  border-radius: 10px;
-  padding: 10px;
-  background-color: #edeef0;
-  &__checkbox {
-    float: left;
-    margin-top: 13px;
-  }
-  &__new-task {
-    background-color: transparent;
-    outline: none;
-    border: none;
-  }
+.list__new-task {
+  margin-top: 15px;
+  background-color: transparent;
+  outline: none;
+  border: none;
 }
 
 .small {
