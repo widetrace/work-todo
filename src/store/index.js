@@ -11,6 +11,15 @@ export default new Vuex.Store({
   plugins: [saveStatePlugin],
   state: {
     board,
+    confirm: {
+      name: '',
+      type: {
+        name: '',
+        index: '',
+        columnIndex: '',
+      },
+      disabled: true,
+    }
   },
   mutations: {
     CREATE_TASK(state, { tasks, name }) {
@@ -20,23 +29,33 @@ export default new Vuex.Store({
         description: '',
       })
     },
+    CREATE_COLUMN(state, name) {
+      const newColumn = {
+        name,
+        tasks: []
+      }
+      state.board.columns.push(newColumn)
+    },
     CHANGE_TASK_STATUS(state, { tasks, taskIndex }) {
       tasks[taskIndex].status = !!tasks[taskIndex].status
     },
+    DELETE_COLUMN(state) {
+      state.board.columns.splice(state.confirm.type.columnIndex, 1)
+    },
+    CALL_CONFIRM(state, confirm) {
+      state.confirm = confirm
+    }
   },
-  actions: {},
-  modules: {},
+  actions: {
+    callConfirmedAction({ state, commit }) {
+      commit(state.confirm.type.name)
+      commit('CALL_CONFIRM', {disabled: true})
+    }
+  },
   getters: {
     getTask(state) {
       return (id) => {
         return state.board.columns[id]
-        // for (const column of state.board.columns) {
-        //   for (const task of column.tasks) {
-        //     if (task.id === id) {
-        //       return task
-        //     }
-        //   }
-        // }
       }
     },
   },

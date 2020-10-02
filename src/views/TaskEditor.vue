@@ -1,5 +1,8 @@
 <template lang="pug">
   .editor
+    .editor__head
+      router-link(:to={ name: "Home" }) <- Back 
+      h2 {{ tasks.name }}
     p {{this.getTask(this.$route.params.id)}}
 </template>
 
@@ -7,9 +10,17 @@
 import { mapGetters } from 'vuex'
 
 export default {
+  data() {
+    return {
+      tasks: null,
+    }
+  },
   computed: {
     ...mapGetters(['getTask']),
   },
+  created() {
+    this.tasks = this.getTask(this.$route.params.id)
+  }
 };
 </script>
 

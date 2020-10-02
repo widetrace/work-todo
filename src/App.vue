@@ -1,21 +1,20 @@
 <template>
   <div id="app">
     <router-view/>
-    <window-confirm v-if="confirm" />
+    <window-confirm v-if="!confirm.disabled" />
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import WindowConfirm from '@/components/WindowConfirm.vue'
 
 export default {
   components: {
     WindowConfirm,
   },
-  data() {
-    return {
-      confirm: false,
-    }
+  computed: {
+    ...mapState(['confirm'])
   }
 }
 </script>
@@ -35,7 +34,9 @@ body {
   min-height: 100vh;
   max-width: 100vw;
   overflow-x: scroll;
-  padding-right: 10vw;
-  padding-left: 10vw;
+}
+
+.router-link-active {
+  color: black;
 }
 </style>

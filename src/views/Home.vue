@@ -9,6 +9,11 @@
           :column="column"
           :columnIndex="$columnIndex"
         )
+        input.column-new(
+          type="text"
+          placeholder="+ Enter new column"
+          @keyup.enter="createColumn($event)"
+        )
 </template>
 
 <script>
@@ -23,6 +28,12 @@ export default {
   computed: {
     ...mapState(['board']),
   },
+  methods: {
+    createColumn(e) {
+      this.$store.commit("CREATE_COLUMN", e.target.value)
+      e.target.value = ""
+    }
+  }
 };
 </script>
 
@@ -37,8 +48,16 @@ p {
 
 .board-items__columns {
   display: flex;
-  flex: 1 1 0;
-  flex-flow: row wrap;
-  justify-content: space-evenly;
+  // flex: 1 1 0;
+  flex-grow: 1;
+  flex-flow: row nowrap;
+}
+
+.column-new {
+  margin-top: 35px;
+  height: 1em;
+  background-color: transparent;
+  outline: none;
+  border: none;
 }
 </style>

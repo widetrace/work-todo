@@ -2,7 +2,7 @@
 .column
   h3 {{ column.name }}
   span(@click="goToEditor(columnIndex)", class="edit btn") Edit
-  span(class="delete btn") Delete
+  span(@click="deleteColumn(column.name, columnIndex)", class="delete btn") Delete
   .tasks
     column-task(
       v-for="(task, $taskIndex) in column.tasks",
@@ -46,13 +46,23 @@ export default {
     goToEditor(columnIndex) {
       this.$router.push({ name: "Editor", params: { id: columnIndex } });
     },
+    deleteColumn(columnName, columnIndex) {
+      this.$store.commit("CALL_CONFIRM", {
+        name: 'Delete column: ' + columnName + '?',
+        type: {
+          name: "DELETE_COLUMN",
+          columnIndex
+        },
+        disabled: false,
+      })
+    }
   },
 };
 </script>
 
 <style lang="scss">
 .btn {
-  padding: 10px;
+  margin: 10px;
   &:hover {
     text-decoration: underline;
     cursor: pointer;
@@ -67,6 +77,7 @@ export default {
   border: 1px solid #edeef0;
   border-radius: 5px;
   padding: 10px;
+  margin: 20px;
 }
 
 .list__new-task {
