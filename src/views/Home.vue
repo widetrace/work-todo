@@ -1,7 +1,7 @@
 <template lang="pug">
   .board
     .board-items
-      h1 {{ board.name }}
+      h1.board-items__title {{ board.name }}
       .board-items__columns
         board-column(
           v-for="(column, $columnIndex) in board.columns"
@@ -48,13 +48,13 @@ p {
 
 .board-items__columns {
   display: flex;
-  // flex: 1 1 0;
-  flex-grow: 1;
-  flex-flow: row nowrap;
+  flex: 1 1 0;
+  flex-flow: row wrap;
 }
 
 .column-new {
   margin-top: 35px;
+  margin-left: 35px;
   height: 1em;
   background-color: transparent;
   outline: none;

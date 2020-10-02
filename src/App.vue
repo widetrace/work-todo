@@ -24,6 +24,10 @@ body {
   margin: 0;
 }
 
+h1 {
+  margin-top: 0;
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -33,7 +37,6 @@ body {
   color: #2c3e50;
   min-height: 100vh;
   max-width: 100vw;
-  overflow-x: scroll;
 }
 
 .router-link-active {

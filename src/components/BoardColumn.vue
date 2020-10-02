@@ -1,6 +1,6 @@
 <template lang="pug">
 .column
-  h3 {{ column.name }}
+  h3.column__title {{ column.name }}
   span(@click="goToEditor(columnIndex)", class="edit btn") Edit
   span(@click="deleteColumn(column.name, columnIndex)", class="delete btn") Delete
   .tasks
@@ -78,6 +78,10 @@ export default {
   border-radius: 5px;
   padding: 10px;
   margin: 20px;
+  word-wrap: break-word;
+  &__title {
+    max-width: 15vw;
+  }
 }
 
 .list__new-task {

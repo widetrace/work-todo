@@ -6,7 +6,7 @@
       v-model="task.status",
       @change="changeTaskStatus($event)",
     )
-    p {{ task.name }}
+    p.task-data__name {{ task.name }}
     p.small {{ task.description }}
 </template>
 

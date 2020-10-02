@@ -23,6 +23,9 @@ export default {
     approveAction() {
       this.$store.dispatch('callConfirmedAction')
     }
+  },
+  mounted() {
+    window.scrollTo(0,0);
   }
 };
 </script>
@@ -30,15 +33,16 @@ export default {
 <style lang="scss" scopped>
 .window {
   position: absolute;
-  top: 0;
-  left: 0;
+  left:0;
+  right:0;
+  top:0;
+  bottom:0;
   background-color: rgba(0, 0, 0, 0.35);
-  width: 100%;
-  height: 100%;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   &-box {
+    margin-top: 15vh;
     background-color: blanchedalmond;
     padding: 35px;
     border-radius: 5px;
