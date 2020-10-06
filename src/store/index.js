@@ -39,6 +39,9 @@ export default new Vuex.Store({
     CHANGE_TASK_STATUS(state, { tasks, taskIndex }) {
       tasks[taskIndex].status = !!tasks[taskIndex].status
     },
+    UPDATE_COLUMN(state, {columnId, column}) {
+      state.board.columns.splice(columnId, 1, column)
+    },
     DELETE_COLUMN(state) {
       state.board.columns.splice(state.confirm.type.columnIndex, 1)
     },

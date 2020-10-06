@@ -1,33 +1,29 @@
 <template lang="pug">
 .task
   .task-data
-    p.task-data__delete(
-      @click="deleteTask",
-      v-if="editing"
-    ) X 
+    p.task-data__delete(@click="deleteTask", v-if="editing") X
     input.task-data__checkbox(
       type="checkbox",
       v-model="task.status",
-      @change="changeTaskStatus($event)",
+      @change="changeTaskStatus($event)"
     )
-    p.task-data__name(
-      v-if="!editing"
-    ) {{ task.name }}
-    input.task-data__edit-name(
-      type="text",
-      v-else,
-      v-model="task.name"
-    )
-    p.small(
-      v-if="!editing"
-    ) {{ task.description }}
-    textarea.task-data__edit-description(
-      v-else
-      type="text",
-      v-model="task.description",
-      placeholder="+ Enter description",
-      @blur="descriptionEdited"
-    )
+    template
+      p.task-data__name(v-if="!editing") {{ task.name }}
+      input.task-data__edit-name(
+        type="text",
+        v-else,
+        v-model="task.name",
+        @keyup.enter="blurEvent($event)"
+      )
+    template
+      p.small(v-if="!editing") {{ task.description }}
+      textarea.task-data__edit-description(
+        v-else,
+        type="text",
+        v-model="task.description",
+        placeholder="+ Enter description",
+        @blur="descriptionEdited($event)"
+      )
 </template>
 
 <script>
@@ -47,7 +43,7 @@ export default {
     },
     editing: {
       type: Boolean,
-    }
+    },
   },
   methods: {
     changeTaskStatus(e) {
@@ -59,11 +55,20 @@ export default {
       });
     },
     deleteTask() {
-      console.log('deleting')
+      console.log("deleting");
     },
-    descriptionEdited() {
-      console.log('descr edited')
-    }
+    descriptionEdited(e) {
+      console.log(e.target.value);
+      const editObj = {
+        type: 'description',
+        newValue: e.target.value,
+        taskIndex: this.taskIndex,
+      }
+      this.$emit("edit:task", editObj);
+    },
+    blurEvent(e) {
+      e.target.blur();
+    },
   },
 };
 </script>

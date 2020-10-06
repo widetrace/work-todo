@@ -14,11 +14,12 @@
     .editor__tasks
       column-task(
         v-for="(task, $taskIndex) in column.tasks",
-        :key="$taskIndex",
+        :key="$taskIndex + 1",
         :task="task",
         :tasks="column.tasks",
         :taskIndex="$taskIndex",
-        :editing="true"
+        :editing="true",
+        @edit:task="taskEdited($event)"
       )
 </template>
 
@@ -33,6 +34,10 @@ export default {
   data() {
     return {
       column: null,
+      blockChain: {
+        current: 0,
+        chains: [],
+      },
     };
   },
   computed: {
@@ -46,9 +51,38 @@ export default {
       });
       e.target.value = "";
     },
+    taskEdited({ type, newValue, taskIndex }) {
+      const oldValue = this.getTask(this.$route.params.id).tasks[taskIndex][
+        type
+      ];
+      this.blockChain.chains.push({
+        type,
+        newValue,
+        oldValue,
+        taskIndex,
+      });
+      this.blockChain.current = this.blockChain.chains.length - 1;
+      console.log(this.blockChain);
+    },
   },
   created() {
-    this.column = this.getTask(this.$route.params.id);
+    this.column = JSON.parse(
+      JSON.stringify(this.getTask(this.$route.params.id))
+    );
+  },
+  beforeRouteLeave(to, from, next) {
+    const answer = window.confirm(
+      "Вы хотите уйти? У вас есть несохранённые изменения!"
+    );
+    if (answer) {
+      this.$store.commit("UPDATE_COLUMN", {
+        columnId: this.$route.params.id,
+        column: this.column,
+      });
+      next();
+    } else {
+      next(false);
+    }
   },
 };
 </script>
