@@ -10,7 +10,10 @@
         @keyup.enter="createTask($event, column.tasks)"
       )
       p Save
-      p Revert
+      p(
+        v-if="this.blockChain.chains.length > 0"
+        @click="prevChain"
+      ) Revert
     .editor__tasks
       column-task(
         v-for="(task, $taskIndex) in column.tasks",
@@ -66,6 +69,8 @@ export default {
     },
   },
   created() {
+    // Глубокое копирование, так как есть вложенные объекты
+    // Неглубокое копирование 
     this.column = JSON.parse(
       JSON.stringify(this.getTask(this.$route.params.id))
     );
