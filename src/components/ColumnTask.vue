@@ -15,7 +15,8 @@
           type="text",
           v-else,
           v-model="task.name",
-          @keyup.enter="blurEvent($event)"
+          @keyup.enter="blurEvent($event)",
+          @blur="titleEdited($event)"
         )
       template
         p.small(v-if="!editing") {{ task.description }}
@@ -76,6 +77,15 @@ export default {
       }
       this.$emit("edit:task", editObj);
     },
+    titleEdited(e) {
+      console.log(e.target.value)
+      const editObj = {
+        type: 'name',
+        newValue: e.target.value,
+        taskIndex: this.taskIndex,
+      }
+      this.$emit("edit:task", editObj)
+    },
     blurEvent(e) {
       e.target.blur();
     },
@@ -115,8 +125,8 @@ export default {
       display: block;
       outline: none;
       border: none;
+      width: 50vw;
       margin-top: 10px;
-      width: 75%;
       padding: 5px;
       resize: vertical;
     }

@@ -54,17 +54,23 @@ export default {
       });
       e.target.value = "";
     },
+    prevChain() {},
+    saveNewState() {
+      
+    },
     taskEdited({ type, newValue, taskIndex }) {
       const oldValue = this.getTask(this.$route.params.id).tasks[taskIndex][
         type
       ];
-      this.blockChain.chains.push({
-        type,
-        newValue,
-        oldValue,
-        taskIndex,
-      });
-      this.blockChain.current = this.blockChain.chains.length - 1;
+      if (newValue !== oldValue) {
+        this.blockChain.chains.push({
+          type,
+          newValue,
+          oldValue,
+          taskIndex,
+        });
+        this.blockChain.current = this.blockChain.chains.length - 1;
+      }
       console.log(this.blockChain);
     },
   },
