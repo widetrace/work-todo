@@ -45,6 +45,9 @@ export default new Vuex.Store({
     DELETE_COLUMN(state) {
       state.board.columns.splice(state.confirm.type.columnIndex, 1)
     },
+    DELETE_TASK(state) {
+      state.confirm.type.tasks.splice(state.confirm.type.taskIndex, 1)
+    },
     CALL_CONFIRM(state, confirm) {
       state.confirm = confirm
     }

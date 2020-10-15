@@ -57,7 +57,15 @@ export default {
       });
     },
     deleteTask() {
-      console.log("deleting");
+      this.$store.commit("CALL_CONFIRM", {
+        name: `Delete task: ${this.task.name}?`,
+        type: {
+          name: 'DELETE_TASK',
+          tasks: this.tasks,
+          taskIndex: this.taskIndex
+        },
+        disabled: false,
+      })
     },
     descriptionEdited(e) {
       console.log(e.target.value);
@@ -93,6 +101,7 @@ export default {
     &__delete {
       margin-top: 0;
       color: red;
+      text-align: center;
       &:hover {
         cursor: pointer;
       }
