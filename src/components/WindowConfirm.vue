@@ -1,9 +1,9 @@
 <template lang="pug">
-  .window
+  .window(@keyup.enter="test", tabindex="0")
     .window-box
       h2 {{ confirm.name }}
-      span.btn(@click="closeWindow") No
       span.btn(@click="approveAction") Yes
+      span.btn(@click="closeWindow") No
 </template>
 
 <script>
@@ -20,12 +20,24 @@ export default {
         disabled: true,
       })
     },
+    test() {
+      console.log('123')
+    },
     approveAction() {
       this.$store.dispatch('callConfirmedAction')
+    },
+    handler(e) {
+      if (e.keyCode === 27) {
+        this.closeWindow()
+      }
     }
   },
   mounted() {
     window.scrollTo(0,0);
+    window.addEventListener('keyup', this.handler)
+  },
+  destroyed() {
+    window.removeEventListener('keyup', this.handler)
   }
 };
 </script>

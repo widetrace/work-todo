@@ -80,7 +80,7 @@ export default {
   margin: 20px;
   word-wrap: break-word;
   &__title {
-    max-width: 15vw;
+    text-align: center;
   }
 }
 
@@ -93,6 +93,5 @@ export default {
 
 .small {
   font-size: 10px;
-  padding-left: 20px;
 }
 </style>

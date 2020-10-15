@@ -1,29 +1,31 @@
 <template lang="pug">
 .task
   .task-data
-    p.task-data__delete(@click="deleteTask", v-if="editing") X
-    input.task-data__checkbox(
-      type="checkbox",
-      v-model="task.status",
-      @change="changeTaskStatus($event)"
-    )
-    template
-      p.task-data__name(v-if="!editing") {{ task.name }}
-      input.task-data__edit-name(
-        type="text",
-        v-else,
-        v-model="task.name",
-        @keyup.enter="blurEvent($event)"
+    .task-data__buttons
+      p.task-data__delete(@click="deleteTask", v-if="editing") X
+      input.task-data__checkbox(
+        type="checkbox",
+        v-model="task.status",
+        @change="changeTaskStatus($event)"
       )
-    template
-      p.small(v-if="!editing") {{ task.description }}
-      textarea.task-data__edit-description(
-        v-else,
-        type="text",
-        v-model="task.description",
-        placeholder="+ Enter description",
-        @blur="descriptionEdited($event)"
-      )
+    .task-data__textfields
+      template
+        p.task-data__name(v-if="!editing") {{ task.name }}
+        input.task-data__edit-name(
+          type="text",
+          v-else,
+          v-model="task.name",
+          @keyup.enter="blurEvent($event)"
+        )
+      template
+        p.small(v-if="!editing") {{ task.description }}
+        textarea.task-data__edit-description(
+          v-else,
+          type="text",
+          v-model="task.description",
+          placeholder="+ Enter description",
+          @blur="descriptionEdited($event)"
+        )
 </template>
 
 <script>
@@ -81,12 +83,14 @@ export default {
   background-color: #edeef0;
   text-align: left;
   &-data {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: flex-start;
     &__checkbox {
-      float: left;
       margin: 0 10px;
     }
     &__delete {
-      float: left;
       margin-top: 0;
       color: red;
       &:hover {

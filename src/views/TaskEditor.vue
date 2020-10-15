@@ -70,7 +70,7 @@ export default {
   },
   created() {
     // Глубокое копирование, так как есть вложенные объекты
-    // Неглубокое копирование 
+    // неглубокое копирование не подходит
     this.column = JSON.parse(
       JSON.stringify(this.getTask(this.$route.params.id))
     );
