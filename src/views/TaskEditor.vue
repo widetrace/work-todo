@@ -2,7 +2,7 @@
   .editor
     .editor__head
       router-link(:to={ name: "Home" }) <- Back 
-      h2 {{ column.name }}
+      h2 {{ column.name || '-'}}
     .editor__control-panel
       input.create-task(
         type="text",
@@ -14,7 +14,7 @@
         v-if="this.blockChain.chains.length > 0"
         @click="prevChain"
       ) Revert
-    .editor__tasks
+    .editor__tasks(v-if="column.tasks")
       column-task(
         v-for="(task, $taskIndex) in column.tasks",
         :key="$taskIndex + 1",
@@ -56,7 +56,7 @@ export default {
     },
     prevChain() {},
     saveNewState() {
-      
+
     },
     taskEdited({ type, newValue, taskIndex }) {
       const oldValue = this.getTask(this.$route.params.id).tasks[taskIndex][
@@ -74,26 +74,35 @@ export default {
       console.log(this.blockChain);
     },
   },
-  created() {
+  beforeMount() {
     // Глубокое копирование, так как есть вложенные объекты
     // неглубокое копирование не подходит
     this.column = JSON.parse(
       JSON.stringify(this.getTask(this.$route.params.id))
     );
   },
-  beforeRouteLeave(to, from, next) {
-    const answer = window.confirm(
-      "Вы хотите уйти? У вас есть несохранённые изменения!"
-    );
-    if (answer) {
-      this.$store.commit("UPDATE_COLUMN", {
-        columnId: this.$route.params.id,
-        column: this.column,
-      });
-      next();
-    } else {
-      next(false);
+  beforeCreate() {
+    if (this.$route.params.id < 0 || this.$route.params.id > this.$store.state.board.columns.length - 1) {
+      this.$router.push({ name: 'Home' })
     }
+  },
+  beforeRouteLeave(to, from, next) {
+  //   const answer = window.confirm(
+  //     "Вы хотите уйти? У вас есть несохранённые изменения!"
+  //   );
+  //   if (answer) {
+  //     this.$store.commit("UPDATE_COLUMN", {
+  //       columnId: this.$route.params.id,
+  //       column: this.column,
+  //     });
+  //     next();
+  //   } else {
+  //     next(false);
+  //   }
+    this.$store.dispatch('leavePage').then((res) => {
+      console.log(res)
+      next()
+    })
   },
 };
 </script>

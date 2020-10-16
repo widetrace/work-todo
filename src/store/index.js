@@ -56,6 +56,13 @@ export default new Vuex.Store({
     callConfirmedAction({ state, commit }) {
       commit(state.confirm.type.name)
       commit('CALL_CONFIRM', {disabled: true})
+    },
+    leavePage({ state }) {
+      return new Promise((res, rej) => {
+        setTimeout(() => {
+          res(true)
+        }, 1000);
+      })
     }
   },
   getters: {
