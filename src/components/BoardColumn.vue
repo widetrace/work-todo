@@ -47,8 +47,8 @@ export default {
       this.$router.push({ name: "Editor", params: { id: columnIndex } });
     },
     deleteColumn(columnName, columnIndex) {
-      this.$store.commit("CALL_CONFIRM", {
-        name: 'Delete column: ' + columnName + '?',
+      this.$store.dispatch("confirmAction", {
+        title: 'Delete column: ' + columnName + '?',
         type: {
           name: "DELETE_COLUMN",
           columnIndex
@@ -74,7 +74,7 @@ export default {
 }
 
 .column {
-  border: 1px solid #edeef0;
+  border: 3px solid #edeef0;
   border-radius: 5px;
   padding: 10px;
   margin: 20px;

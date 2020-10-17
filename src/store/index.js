@@ -57,11 +57,17 @@ export default new Vuex.Store({
       commit(state.confirm.type.name)
       commit('CALL_CONFIRM', {disabled: true})
     },
-    leavePage({ state }) {
-      return new Promise((res, rej) => {
-        setTimeout(() => {
-          res(true)
-        }, 1000);
+    confirmAction({ state, commit }, payload) {
+      console.log(payload)
+      Vue.$confirm({
+        title: 'Test',
+        button: {
+          yes: 'Y',
+          no: 'N',
+        },
+        callback: confirm => {
+          console.log(confirm)
+        }
       })
     }
   },

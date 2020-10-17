@@ -87,6 +87,20 @@ export default {
     }
   },
   beforeRouteLeave(to, from, next) {
+    if (this.blockChain.chains.length) {
+      this.$confirm({
+        message: 'Save?',
+        button: {
+          no: 'No',
+          yes: 'Yes'
+        },
+        callback: confirm => {
+          console.log(confirm)
+        }
+      })
+    } else {
+      next();
+    }
   //   const answer = window.confirm(
   //     "Вы хотите уйти? У вас есть несохранённые изменения!"
   //   );
@@ -99,10 +113,12 @@ export default {
   //   } else {
   //     next(false);
   //   }
-    this.$store.dispatch('leavePage').then((res) => {
-      console.log(res)
-      next()
-    })
+
+    // this.$store.commit("CALL_CONFIRM")
+    // this.$store.dispatch('leavePage').then((res) => {
+    //   console.log(res)
+    //   next()
+    // })
   },
 };
 </script>

@@ -1,18 +1,14 @@
 <template>
   <div id="app">
     <router-view/>
-    <window-confirm v-if="!confirm.disabled" />
+    <vue-confirm-dialog />
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
-import WindowConfirm from '@/components/WindowConfirm.vue'
 
 export default {
-  components: {
-    WindowConfirm,
-  },
   computed: {
     ...mapState(['confirm'])
   }
