@@ -19,7 +19,7 @@ export default new Vuex.Store({
         columnIndex: '',
       },
       disabled: true,
-    }
+    },
   },
   mutations: {
     CREATE_TASK(state, { tasks, name }) {
@@ -32,44 +32,48 @@ export default new Vuex.Store({
     CREATE_COLUMN(state, name) {
       const newColumn = {
         name,
-        tasks: []
+        tasks: [],
       }
       state.board.columns.push(newColumn)
     },
     CHANGE_TASK_STATUS(state, { tasks, taskIndex }) {
       tasks[taskIndex].status = !!tasks[taskIndex].status
     },
-    UPDATE_COLUMN(state, {columnId, column}) {
+    UPDATE_COLUMN(state, { columnId, column }) {
       state.board.columns.splice(columnId, 1, column)
     },
-    DELETE_COLUMN(state) {
-      state.board.columns.splice(state.confirm.type.columnIndex, 1)
+    DELETE_COLUMN(state, { columnIndex }) {
+      state.board.columns.splice(columnIndex, 1)
     },
     DELETE_TASK(state) {
       state.confirm.type.tasks.splice(state.confirm.type.taskIndex, 1)
     },
     CALL_CONFIRM(state, confirm) {
       state.confirm = confirm
-    }
+    },
   },
   actions: {
     callConfirmedAction({ state, commit }) {
       commit(state.confirm.type.name)
-      commit('CALL_CONFIRM', {disabled: true})
+      commit('CALL_CONFIRM', { disabled: true })
     },
-    confirmAction({ state, commit }, payload) {
-      console.log(payload)
-      Vue.$confirm({
-        title: 'Test',
-        button: {
-          yes: 'Y',
-          no: 'N',
-        },
-        callback: confirm => {
-          console.log(confirm)
-        }
+    confirmAction({ state, commit }, { title, type }) {
+      return new Promise((resolve, reject) => {
+        Vue.$confirm({
+          title,
+          button: {
+            yes: 'Yes',
+            no: 'No',
+          },
+          callback: (confirm) => {
+            if (confirm) {
+              commit(type.name, type)
+              resolve()
+            }
+          },
+        })
       })
-    }
+    },
   },
   getters: {
     getTask(state) {

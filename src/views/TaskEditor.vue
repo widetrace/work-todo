@@ -88,37 +88,19 @@ export default {
   },
   beforeRouteLeave(to, from, next) {
     if (this.blockChain.chains.length) {
-      this.$confirm({
-        message: 'Save?',
-        button: {
-          no: 'No',
-          yes: 'Yes'
-        },
-        callback: confirm => {
-          console.log(confirm)
+      this.$store.dispatch("confirmAction", {
+        title: 'Save edited info?',
+        type: {
+          name: 'UPDATE_COLUMN',
+          columnId: this.$route.params.id,
+          column: this.column
         }
+      }).then(() => {
+        next()
       })
     } else {
       next();
     }
-  //   const answer = window.confirm(
-  //     "Вы хотите уйти? У вас есть несохранённые изменения!"
-  //   );
-  //   if (answer) {
-  //     this.$store.commit("UPDATE_COLUMN", {
-  //       columnId: this.$route.params.id,
-  //       column: this.column,
-  //     });
-  //     next();
-  //   } else {
-  //     next(false);
-  //   }
-
-    // this.$store.commit("CALL_CONFIRM")
-    // this.$store.dispatch('leavePage').then((res) => {
-    //   console.log(res)
-    //   next()
-    // })
   },
 };
 </script>

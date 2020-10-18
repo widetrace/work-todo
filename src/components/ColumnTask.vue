@@ -15,7 +15,7 @@
           type="text",
           v-else,
           v-model="task.name",
-          @keyup.enter="blurEvent($event)",
+          @keyup.enter.self="blurEvent($event)",
           @blur="titleEdited($event)"
         )
       template

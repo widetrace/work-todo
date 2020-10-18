@@ -14,7 +14,7 @@
   input.list__new-task(
     type="text",
     placeholder="+ Enter new task",
-    @keyup.enter="createTask($event, column.tasks)"
+    @keyup.enter.self="createTask($event, column.tasks)"
   )
 </template>
 
