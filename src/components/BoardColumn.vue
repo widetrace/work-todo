@@ -74,10 +74,12 @@ export default {
 }
 
 .column {
-  border: 3px solid #edeef0;
+  max-width: 15%;
+  min-width: 15%;
+  border: 2px solid #edeef0;
   border-radius: 5px;
   padding: 10px;
-  margin: 20px;
+  margin: 10px;
   word-wrap: break-word;
   &__title {
     text-align: center;

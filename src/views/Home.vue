@@ -38,6 +38,10 @@ export default {
 </script>
 
 <style lang="scss">
+.board {
+  overflow-x: auto;
+}
+
 h3 {
   margin-top: 0;
 }
@@ -48,8 +52,11 @@ p {
 
 .board-items__columns {
   display: flex;
+  flex-flow: row nowrap;
+}
+
+.column {
   flex: 1 1 0;
-  flex-flow: row wrap;
 }
 
 .column-new {
