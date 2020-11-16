@@ -68,8 +68,8 @@ export default new Vuex.Store({
           callback: (confirm) => {
             if (confirm) {
               commit(type.name, type)
-              resolve()
             }
+            resolve()
           },
         })
       })

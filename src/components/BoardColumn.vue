@@ -74,8 +74,8 @@ export default {
 }
 
 .column {
-  max-width: 15%;
-  min-width: 15%;
+  max-width: 25%;
+  min-width: 20%;
   border: 2px solid #edeef0;
   border-radius: 5px;
   padding: 10px;

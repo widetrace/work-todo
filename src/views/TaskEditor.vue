@@ -9,7 +9,10 @@
         placeholder="+ Enter new task",
         @keyup.enter="createTask($event, column.tasks)"
       )
-      p Save
+      p(
+        v-if="this.blockChain.chains.length > 0"
+        @click="saveNewState"
+      ) Save
       p(
         v-if="this.blockChain.chains.length > 0"
         @click="prevChain"
@@ -55,9 +58,7 @@ export default {
       e.target.value = "";
     },
     prevChain() {},
-    saveNewState() {
-
-    },
+    saveNewState() {},
     taskEdited({ type, newValue, taskIndex }) {
       const oldValue = this.getTask(this.$route.params.id).tasks[taskIndex][
         type
@@ -82,22 +83,27 @@ export default {
     );
   },
   beforeCreate() {
-    if (this.$route.params.id < 0 || this.$route.params.id > this.$store.state.board.columns.length - 1) {
-      this.$router.push({ name: 'Home' })
+    if (
+      this.$route.params.id < 0 ||
+      this.$route.params.id > this.$store.state.board.columns.length - 1
+    ) {
+      this.$router.push({ name: "Home" });
     }
   },
   beforeRouteLeave(to, from, next) {
     if (this.blockChain.chains.length) {
-      this.$store.dispatch("confirmAction", {
-        title: 'Save edited info?',
-        type: {
-          name: 'UPDATE_COLUMN',
-          columnId: this.$route.params.id,
-          column: this.column
-        }
-      }).then(() => {
-        next()
-      })
+      this.$store
+        .dispatch("confirmAction", {
+          title: "Save edited info?",
+          type: {
+            name: "UPDATE_COLUMN",
+            columnId: this.$route.params.id,
+            column: this.column,
+          },
+        })
+        .then(() => {
+          next();
+        })
     } else {
       next();
     }
