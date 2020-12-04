@@ -57,6 +57,7 @@ export default {
         taskIndex: this.taskIndex,
       });
     },
+    // Не работает
     deleteTask() {
       this.$store.commit("CALL_CONFIRM", {
         name: `Delete task: ${this.task.name}?`,
@@ -69,7 +70,6 @@ export default {
       })
     },
     descriptionEdited(e) {
-      console.log(e.target.value);
       const editObj = {
         type: 'description',
         newValue: e.target.value,
@@ -78,7 +78,6 @@ export default {
       this.$emit("edit:task", editObj);
     },
     titleEdited(e) {
-      console.log(e.target.value)
       const editObj = {
         type: 'name',
         newValue: e.target.value,

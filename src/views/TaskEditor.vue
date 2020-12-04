@@ -41,7 +41,7 @@ export default {
     return {
       column: null,
       blockChain: {
-        current: 0,
+        current: null,
         chains: [],
       },
     };
@@ -57,12 +57,26 @@ export default {
       });
       e.target.value = "";
     },
-    prevChain() {},
+    prevChain() {
+      const selectedChain = this.blockChain.chains[this.blockChain.current]
+      if (this.blockChain.current === 0) {
+        this.column.tasks[selectedChain.taskIndex][selectedChain.type] = selectedChain.oldValue
+        this.blockChain.current = null;
+        this.blockChain.chains = [];
+      }
+      console.log(this.blockChain)
+      console.log(this.column.tasks)
+    },
     saveNewState() {},
     taskEdited({ type, newValue, taskIndex }) {
       const oldValue = this.getTask(this.$route.params.id).tasks[taskIndex][
         type
       ];
+      if (this.blockChain.current !== null && this.blockChain.chains.length - 1 !== this.blockChain.current) {
+        console.log('smth reverted')
+      } else {
+        console.log('nothing were reverted')
+      }
       if (newValue !== oldValue) {
         this.blockChain.chains.push({
           type,
